@@ -43,22 +43,25 @@ public class HomeController {
 	@RequestMapping(value = "/quickfind", method = RequestMethod.GET)
 	public String home(Model model) {
 		
-		int size = 100;
+		int size = 50;
 		int halfSize = (size/2);
 		GenerateRandomArray gra = new GenerateRandomArray(size);
 		QuickFindDTO qfd = new QuickFindDTO();
 		QuickFind qf = new QuickFind(size);
 		List<Integer[]> connecarray =new ArrayList<Integer[]>();
-		for (int i = 0; i<(halfSize);i++){
-			Integer[] qfArray = new Integer[2]; 
-			int p = (gra.getIntList()).get(i*2);
-			int q = (gra.getIntList()).get((i*2)+1);
+		for (int i = 0; i<(size);i++){
+			Integer[] qfArray = new Integer[3]; 
+			int p = i;
+			//int p = (gra.getIntList()).get(i*2);
+			int q = (gra.getIntList()).get(i);//((i*2)+1);
 			qfArray[0]=p;
 			qfArray[1]=q;
+			qfArray[2]=p;
 			if(!qf.connected(p, q)){
 				qf.union(p, q);
 				//System.out.println(p+"...."+q);
 			}
+			
 			connecarray.add(qfArray);
 			/*if (!qf.connected(p, q)){
 				qf.union(p, q);
@@ -67,7 +70,12 @@ public class HomeController {
 		}
 		int[] output= qf.getId();
 		for(int i = 0; i<output.length;i++){
-		System.out.println(output[i]);}
+			Integer[] arrr = new Integer[3];
+			arrr=connecarray.get(i);
+		System.out.println(output[i]);
+		arrr[2]=output[i];
+		connecarray.set(i,arrr);
+		}
 		Connections c = new Connections();
 		List<Integer> listInt = gra.getIntList();
 		qfd.setConnec(connecarray);

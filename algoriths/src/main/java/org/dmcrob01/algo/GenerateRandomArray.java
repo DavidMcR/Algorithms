@@ -12,7 +12,7 @@ public class GenerateRandomArray {
 	public GenerateRandomArray(int x){
 		Random random = new Random();
 		for (int i =0;i<x;i++){
-			int r = random.nextInt(100);
+			int r = random.nextInt(50);
 			intList.add(r);
 
 		}

@@ -19,7 +19,7 @@
 
 <table border=3>
 <c:forEach items="${listint}" var="listitem" >         
-<tr><td>${listitem[0]}</td><td>${listitem[1]}</td></tr>
+<tr><td>${listitem[0]}</td><td>${listitem[1]}</td><td>.....</td><td>${listitem[2]}</td></tr>
 
 </c:forEach> 
 </table>
