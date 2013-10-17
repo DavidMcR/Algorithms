@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import algorithms.QuickFind;
+import algorithms.QuickUnion;
 import dto.Connections;
-import dto.QuickFindDTO;
+import dto.ArrayListDTO;
 
 /**
  * Handles requests for the application home page.
@@ -42,12 +43,12 @@ public class HomeController {
 		return "home";
 	}
 	@RequestMapping(value = "/quickfind", method = RequestMethod.GET)
-	public String home(Model model) {
+	public String quickFind(Model model) {
 		
 		int size = 50;
 		int halfSize = (size/2);
 		GenerateRandomArray gra = new GenerateRandomArray(size);
-		QuickFindDTO qfd = new QuickFindDTO();
+		ArrayListDTO qfd = new ArrayListDTO();
 		QuickFind qf = new QuickFind(size);
 		List<Integer[]> connecarray =new ArrayList<Integer[]>();
 		for (int i = 0; i<(size);i++){
@@ -87,4 +88,42 @@ public class HomeController {
 		model.addAttribute("listint", connecarray);
 		return "QuickFind";
 	}
+	@RequestMapping(value = "/quickunion", method = RequestMethod.GET)
+	public String quickUnion(Model model) {
+		int size = 50;
+		GenerateRandomArray gra = new GenerateRandomArray(size);
+		ArrayListDTO qfd = new ArrayListDTO();
+		QuickUnion qu = new QuickUnion(size);
+		
+		List<Integer[]> connecarray =new ArrayList<Integer[]>();
+		for (int i = 0; i<(size);i++){
+			Integer[] qfArray = new Integer[3]; 
+			int p = i;
+			//int p = (gra.getIntList()).get(i*2);
+			int q = (gra.getIntList()).get(i);//((i*2)+1);
+			qfArray[0]=p;
+			qfArray[1]=q;
+			qfArray[2]=p;
+			if(!qu.connected(p, q)){
+				qu.union(p, q);
+				//System.out.println(p+"...."+q);
+			}
+			connecarray.add(qfArray);
+			
+		}
+		
+		int[] output= qu.getId();
+		for(int i = 0; i<output.length;i++){
+			Integer[] arrr = new Integer[3];
+			arrr=connecarray.get(i);
+		System.out.println(output[i]);
+		arrr[2]=output[i];
+		connecarray.set(i,arrr);
+		}
+		qfd.setConnec(connecarray);
+		model.addAttribute("helloworld", "Hello World");
+		model.addAttribute("listint", connecarray);
+		return "QuickUnion";
+	}
+	
 }
