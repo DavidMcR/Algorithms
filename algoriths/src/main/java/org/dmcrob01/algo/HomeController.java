@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import algorithms.InsertionSort;
 import algorithms.QuickFind;
 import algorithms.QuickUnion;
+import algorithms.SelectionSort;
 import dto.Connections;
 import dto.ArrayListDTO;
 
@@ -61,7 +64,7 @@ public class HomeController {
 			qfArray[2]=p;
 			if(!qf.connected(p, q)){
 				qf.union(p, q);
-				//System.out.println(p+"...."+q);
+
 			}
 			
 			connecarray.add(qfArray);
@@ -74,7 +77,7 @@ public class HomeController {
 		for(int i = 0; i<output.length;i++){
 			Integer[] arrr = new Integer[3];
 			arrr=connecarray.get(i);
-		System.out.println(output[i]);
+		
 		arrr[2]=output[i];
 		connecarray.set(i,arrr);
 		}
@@ -103,7 +106,7 @@ public class HomeController {
 			int q = (gra.getIntList()).get(i);//((i*2)+1);
 			qfArray[0]=p;
 			qfArray[1]=q;
-			qfArray[2]=p;
+			//qfArray[2]=p;
 			if(!qu.connected(p, q)){
 				qu.union(p, q);
 				//System.out.println(p+"...."+q);
@@ -116,14 +119,54 @@ public class HomeController {
 		for(int i = 0; i<output.length;i++){
 			Integer[] arrr = new Integer[3];
 			arrr=connecarray.get(i);
-		System.out.println(output[i]);
-		arrr[2]=output[i];
+		
+		arrr[2]=qu.root(i);//output[i];
 		connecarray.set(i,arrr);
+		
 		}
 		qfd.setConnec(connecarray);
 		model.addAttribute("helloworld", "Hello World");
 		model.addAttribute("listint", connecarray);
 		return "QuickUnion";
+	}
+	
+	
+	@RequestMapping(value = "/selectionsort", method = RequestMethod.GET)
+	public String SelectionSortDispatch(Model model) {
+		SelectionSort ss = new SelectionSort();
+		//Integer[] unsorted = {3,5,2,9,0,6,1,4,7,8};
+		//Integer[] sorted = new Integer[unsorted.length];
+		
+		GenerateRandomArray gra = new GenerateRandomArray();
+		Random random = new Random();
+		int[] a = new int[random.nextInt(2000)];
+		gra.setIntArray(a);
+		gra.Generate();
+		//int[] unsorted = {3,5,2,9,0,6,1,4,7,8,101,-1};
+		int[] unsorted = gra.getIntArray();
+		int[] sorted = new int[unsorted.length];
+		ss.setSort(unsorted);
+		for(int i=0; i<unsorted.length;i++)sorted[i]=unsorted[i];
+		model.addAttribute("unsorted",unsorted);
+		ss.sort(sorted);
+		
+		//Integer[] sorted = ss.getSorted();
+		model.addAttribute("sorted",sorted);
+		return "SelectionSort";
+	
+	}
+	@RequestMapping(value = "/insertionsort", method = RequestMethod.GET)
+	public String InsertionSortDispatch(Model model) {
+		int[] unsorted = {3,5,2,9,0,6,1,4,7,8,101,-1};
+		int[] sorted = new int[unsorted.length];
+		for(int z=0;z<unsorted.length;z++)sorted[z]=unsorted[z];
+		model.addAttribute("unsorted",unsorted);
+		InsertionSort is = new InsertionSort();
+		is.setSort(sorted);
+		is.sort(sorted);
+		model.addAttribute("sorted", is.getInt());
+		return "InsertionSort";
+		
 	}
 	
 }
