@@ -14,11 +14,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import algorithms.BottomupMergesort;
 import algorithms.InsertionSort;
 import algorithms.QuickFind;
 import algorithms.QuickUnion;
 import algorithms.SelectionSort;
 import algorithms.ShellSort;
+import algorithms.MergeSort;
 import dto.Connections;
 import dto.ArrayListDTO;
 
@@ -180,6 +182,31 @@ public class HomeController {
 		ss.sort(sorted);
 		model.addAttribute("sorted", ss.getInt());
 		return "ShellSort";
+	}
+	@RequestMapping(value = "/mergesort", method = RequestMethod.GET)
+	public String MergeSort(Model model) {
+		int[] unsorted = {3,5,2,637,0,6,1,201,7,8,101,-1};
+		int[] sorted = new int[unsorted.length];
+		for(int z=0;z<unsorted.length;z++)sorted[z]=unsorted[z];
+		model.addAttribute("unsorted",unsorted);
+		MergeSort ms = new MergeSort();
+		ms.setSort(sorted);
+		ms.sort(sorted);
+		model.addAttribute("sorted", ms.getInt());
+		return "Mergesort";
+	}
+	
+	@RequestMapping(value = "/bottomupmergesort", method = RequestMethod.GET)
+	public String BottomupMergeSort(Model model) {
+		int[] unsorted = {3,5,2,637,0,6,1,201,7,8,101,-1};
+		int[] sorted = new int[unsorted.length];
+		for(int z=0;z<unsorted.length;z++)sorted[z]=unsorted[z];
+		model.addAttribute("unsorted",unsorted);
+		BottomupMergesort bm = new BottomupMergesort();
+		bm.setSort(sorted);
+		bm.sort(sorted);
+		model.addAttribute("sorted", bm.getInt());
+		return "BottomupMergesort";
 	}
 	
 }
