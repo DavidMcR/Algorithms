@@ -18,6 +18,7 @@ import algorithms.InsertionSort;
 import algorithms.QuickFind;
 import algorithms.QuickUnion;
 import algorithms.SelectionSort;
+import algorithms.ShellSort;
 import dto.Connections;
 import dto.ArrayListDTO;
 
@@ -167,6 +168,18 @@ public class HomeController {
 		model.addAttribute("sorted", is.getInt());
 		return "InsertionSort";
 		
+	}
+	@RequestMapping(value = "/shellsort", method = RequestMethod.GET)
+	public String ShellSort(Model model) {
+		int[] unsorted = {3,5,2,637,0,6,1,201,7,8,101,-1};
+		int[] sorted = new int[unsorted.length];
+		for(int z=0;z<unsorted.length;z++)sorted[z]=unsorted[z];
+		model.addAttribute("unsorted",unsorted);
+		ShellSort ss = new ShellSort();
+		ss.setSort(sorted);
+		ss.sort(sorted);
+		model.addAttribute("sorted", ss.getInt());
+		return "ShellSort";
 	}
 	
 }
