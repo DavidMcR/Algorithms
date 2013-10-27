@@ -7,6 +7,7 @@ import org.junit.Test;
 import algorithms.BottomupMergesort;
 import algorithms.InsertionSort;
 import algorithms.MergeSort;
+import algorithms.Quicksort;
 import algorithms.SelectionSort;
 import algorithms.ShellSort;
 
@@ -73,6 +74,9 @@ public class TestSort {
 	
 	@Test
 	public void testQuickSort(){
-		
+		Quicksort qs = new Quicksort();
+		qs.setSort(unsortedInt);
+		qs.sort(unsortedInt);
+		assertArrayEquals(expectedInt,qs.getInt());
 	}
 }

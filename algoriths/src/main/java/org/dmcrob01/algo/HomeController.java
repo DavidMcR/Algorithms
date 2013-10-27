@@ -209,4 +209,17 @@ public class HomeController {
 		return "BottomupMergesort";
 	}
 	
+	@RequestMapping(value = "/quicksort", method = RequestMethod.GET)
+	public String QuickSort(Model model) {
+		int[] unsorted = {3,5,2,637,0,6,1,201,7,8,101,-1};
+		int[] sorted = new int[unsorted.length];
+		for(int z=0;z<unsorted.length;z++)sorted[z]=unsorted[z];
+		model.addAttribute("unsorted",unsorted);
+		BottomupMergesort bm = new BottomupMergesort();
+		bm.setSort(sorted);
+		bm.sort(sorted);
+		model.addAttribute("sorted", bm.getInt());
+		return "QuickSort";
+	}
+	
 }
