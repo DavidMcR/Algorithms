@@ -1,18 +1,18 @@
 package algorithms;
 
-public class InsertionSort {
+public class InsertionSort implements SortInterface{
 	public static int[] toSort;
 	
 	
-	public static void sort(int[] x){
-		int n =x.length;
+	public void sort(int[] unsortedInt){
+		int n =unsortedInt.length;
 		for(int i = 0;i<n;i++){
 			for(int j=i;j>0;j--)
-				if(less(x[j],x[j-1]))
-					exchange(x,j,j-1);
+				if(less(unsortedInt[j],unsortedInt[j-1]))
+					exchange(unsortedInt,j,j-1);
 				else break;	
 		}
-		for(int k=0;k<x.length;k++)toSort[k]=x[k];
+		for(int k=0;k<unsortedInt.length;k++)toSort[k]=unsortedInt[k];
 	}
 	private static void exchange(int[] toExchange, int alpha, int beta ){
 		int swap = toExchange[alpha];
@@ -34,6 +34,7 @@ public class InsertionSort {
 		// TODO Auto-generated method stub
 		return toSort;
 	}
+
 	
 	
 }

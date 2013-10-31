@@ -1,4 +1,4 @@
-package org.dmcrob01.algo;
+package model;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,26 +3,39 @@ package org.dmcrob01.algo;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
+
+import model.GenerateArrays;
+import model.GenerateRandomArray;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import algorithms.BottomupMergesort;
+import algorithms.ConcreteSort;
 import algorithms.InsertionSort;
 import algorithms.QuickFind;
 import algorithms.QuickUnion;
 import algorithms.SelectionSort;
 import algorithms.ShellSort;
 import algorithms.MergeSort;
+import algorithms.SortInterface;
+import dto.Colour;
 import dto.Connections;
 import dto.ArrayListDTO;
+import dto.Sort;
+
 
 /**
  * Handles requests for the application home page.
@@ -222,4 +235,81 @@ public class HomeController {
 		return "QuickSort";
 	}
 	
+	@RequestMapping(value = "/teststratagy", method = RequestMethod.GET)
+	public String TestStratagy(Model model ) {
+		//*****************************************************************
+		GenerateRandomArray gra = new GenerateRandomArray();
+		Random random = new Random();
+		int[] a = new int[random.nextInt(2000)];
+		gra.setIntArray(a);
+		gra.Generate();
+		//int[] unsorted = {3,5,2,9,0,6,1,4,7,8,101,-1};
+		int[] unsorted = gra.getIntArray();
+		//*****************************************************************
+		
+		//int[] unsorted = {3,5,2,637,0,6,1,201,7,8,101,-1};
+		int [] sorted = new int[unsorted.length];
+		System.arraycopy(unsorted, 0, sorted, 0, unsorted.length);
+		Long startTime=System.currentTimeMillis();
+		model.addAttribute("unsorted",unsorted);
+		ConcreteSort cs = new ConcreteSort(new InsertionSort(),sorted);
+		Long endTime=System.currentTimeMillis();
+		System.out.println(System.currentTimeMillis());
+		System.out.println(endTime-startTime);
+		model.addAttribute("sorted",cs.getToSort()); 
+		return "TestStratagy";
+	}
+	
+	@RequestMapping(value = "/displayperformance", method = RequestMethod.GET)
+	public String Performance(Model model) {
+		 /*Map< String, String > colours = new HashMap();
+		 colours.put("red", "Red");
+		 colours.put("white", "White");
+		 colours.put("blue", "Blue");
+		 colours.put("green", "Green");*/
+		 Map <SortInterface,String> sortType = new HashMap();
+		 sortType.put(new InsertionSort(),"Insertion Sort" );
+		GenerateRandomArray gra = new GenerateRandomArray();
+		GenerateArrays g = new GenerateArrays();
+		g.Generate();
+		model.addAttribute("sortBean", new Sort());
+		model.addAttribute("sortMap", sortType);
+		/*model.addAttribute("colourBean", new Colour());
+		model.addAttribute("colourMap", colours);*/
+		model.addAttribute("averageSize",g.getAverageSize());
+		model.addAttribute("averageTime",g.getAverageTime());
+		//model.addAttribute("arrayLength",g.getSize());
+		//model.addAttribute("totalTime",g.getTime());
+
+	return "DisplayPerformance";
+	}
+	
+	@RequestMapping(value = "/displayperformance", method = RequestMethod.POST)
+	public String PerformancePost(@ModelAttribute("sort")
+	Sort sort, ModelMap model){/*
+	
+	@RequestMapping(value = "/displayperformance", method = RequestMethod.POST)
+	public String PerformancePost(Model model) {*/
+		 /*Map< String, String > colours = new HashMap();
+		 colours.put("red", "Red");
+		 colours.put("white", "White");
+		 colours.put("blue", "Blue");
+		 colours.put("green", "Green");*/
+		 Map <String,SortInterface> sortType = new HashMap();
+		 sortType.put("Insertion Sort",new InsertionSort() );
+		GenerateRandomArray gra = new GenerateRandomArray();
+		GenerateArrays g = new GenerateArrays();
+		g.Generate();
+		model.addAttribute("sortBean", new Sort());
+		model.addAttribute("sortMap", sortType);
+		/*model.addAttribute("colourMap", colours);
+		model.addAttribute("colourBean", new Colour());*/ 
+		model.addAttribute("averageSize",g.getAverageSize());
+		model.addAttribute("averageTime",g.getAverageTime());
+		System.out.println(sort.getSort());
+		//model.addAttribute("arrayLength",g.getSize());
+		//model.addAttribute("totalTime",g.getTime());
+
+	return "DisplayPerformance";
+	}
 }
