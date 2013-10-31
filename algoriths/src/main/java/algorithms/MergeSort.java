@@ -1,6 +1,6 @@
 package algorithms;
 
-public class MergeSort {
+public class MergeSort implements SortInterface{
 	public static int[] toSort;
 	
 	public void setSort(int[] unsortedInt) {

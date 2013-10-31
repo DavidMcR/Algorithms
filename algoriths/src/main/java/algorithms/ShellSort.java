@@ -1,6 +1,6 @@
 package algorithms;
 
-public class ShellSort {
+public class ShellSort implements SortInterface{
 	
 	public static int[] toSort;
 

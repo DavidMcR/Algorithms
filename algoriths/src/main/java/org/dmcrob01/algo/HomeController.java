@@ -35,6 +35,7 @@ import dto.Colour;
 import dto.Connections;
 import dto.ArrayListDTO;
 import dto.Sort;
+import dto.SortHashMap;
 
 
 /**
@@ -262,54 +263,32 @@ public class HomeController {
 	
 	@RequestMapping(value = "/displayperformance", method = RequestMethod.GET)
 	public String Performance(Model model) {
-		 /*Map< String, String > colours = new HashMap();
-		 colours.put("red", "Red");
-		 colours.put("white", "White");
-		 colours.put("blue", "Blue");
-		 colours.put("green", "Green");*/
-		 Map <SortInterface,String> sortType = new HashMap();
-		 sortType.put(new InsertionSort(),"Insertion Sort" );
+		 SortHashMap shm = new SortHashMap();
+		 Map <String,String> sortType = shm.getSortType();
 		GenerateRandomArray gra = new GenerateRandomArray();
-		GenerateArrays g = new GenerateArrays();
-		g.Generate();
+		//GenerateArrays g = new GenerateArrays();
+		//g.Generate();
 		model.addAttribute("sortBean", new Sort());
 		model.addAttribute("sortMap", sortType);
-		/*model.addAttribute("colourBean", new Colour());
-		model.addAttribute("colourMap", colours);*/
-		model.addAttribute("averageSize",g.getAverageSize());
-		model.addAttribute("averageTime",g.getAverageTime());
-		//model.addAttribute("arrayLength",g.getSize());
-		//model.addAttribute("totalTime",g.getTime());
-
+		//model.addAttribute("averageSize",g.getAverageSize());
+		//model.addAttribute("averageTime",g.getAverageTime());		
 	return "DisplayPerformance";
 	}
 	
 	@RequestMapping(value = "/displayperformance", method = RequestMethod.POST)
 	public String PerformancePost(@ModelAttribute("sort")
-	Sort sort, ModelMap model){/*
-	
-	@RequestMapping(value = "/displayperformance", method = RequestMethod.POST)
-	public String PerformancePost(Model model) {*/
-		 /*Map< String, String > colours = new HashMap();
-		 colours.put("red", "Red");
-		 colours.put("white", "White");
-		 colours.put("blue", "Blue");
-		 colours.put("green", "Green");*/
-		 Map <String,SortInterface> sortType = new HashMap();
-		 sortType.put("Insertion Sort",new InsertionSort() );
+	Sort sort, ModelMap model){
+		SortHashMap shm = new SortHashMap();
+		 Map <String,String> sortType = shm.getSortType();
 		GenerateRandomArray gra = new GenerateRandomArray();
 		GenerateArrays g = new GenerateArrays();
+		g.setInsertionSort(sort.getSort());
 		g.Generate();
 		model.addAttribute("sortBean", new Sort());
 		model.addAttribute("sortMap", sortType);
-		/*model.addAttribute("colourMap", colours);
-		model.addAttribute("colourBean", new Colour());*/ 
 		model.addAttribute("averageSize",g.getAverageSize());
 		model.addAttribute("averageTime",g.getAverageTime());
 		System.out.println(sort.getSort());
-		//model.addAttribute("arrayLength",g.getSize());
-		//model.addAttribute("totalTime",g.getTime());
-
 	return "DisplayPerformance";
 	}
 }

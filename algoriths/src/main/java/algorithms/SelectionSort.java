@@ -3,7 +3,7 @@ package algorithms;
 import java.awt.List;
 import java.util.Comparator;
 
-public class SelectionSort {
+public class SelectionSort implements SortInterface {
 	public SelectionSort(){
 		
 	}
@@ -34,7 +34,7 @@ public class SelectionSort {
 		
 	}
 	
-	public static void sort(int[] alpha)
+	public void sort(int[] alpha)
 	
 	{
 		int n = alpha.length;

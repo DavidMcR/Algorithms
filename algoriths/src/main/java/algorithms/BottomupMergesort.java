@@ -1,6 +1,6 @@
 package algorithms;
 
-public class BottomupMergesort {
+public class BottomupMergesort implements SortInterface{
 
 		public static int[] toSort;
 		private static int[] aux;
